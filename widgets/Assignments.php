@@ -16,6 +16,7 @@ use dektrium\rbac\models\Assignment;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
+use kartik\growl\Growl;
 
 /**
  * This widget may be used in user update form and provides ability to assign
@@ -49,9 +50,17 @@ class Assignments extends Widget
             'user_id' => $this->userId,
         ]);
         
-        if ($model->load(\Yii::$app->request->post())) {
-            $model->updateAssignments();
-        }
+        if ($model->updateAssignments()) {
+            		
+			 Yii::$app->getSession()->setFlash('success', [
+			     'type' => Growl::TYPE_SUCCESS,
+			     'title'=>\Yii::t('flash', 'Success!'),
+			     'duration' => 5000,				     
+			     'message' => \Yii::t('flash', 'Assigments have been updated'),					    
+			     'positonY' => 'top',
+			     'positonX' => 'right'
+			 ]);		
+            }
         
         return $this->render('form', [
             'model' => $model,
