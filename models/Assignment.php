@@ -93,6 +93,7 @@ class Assignment extends Model
             $this->items = [];
         }
 
+
         $assignedItems = $this->manager->getItemsByUser($this->user_id);
         $assignedItemsNames = array_keys($assignedItems);
 
